@@ -1,2 +1,18 @@
 #!/bin/sh
-a
+echo  "Can't  commit that dum  dum  dum doo, doo doo doo dooo"
+# $(python test.py)
+files=$(git diff --name-only --cached)
+echo $files
+output=$(python test.py)
+if [ "$output" != "" ]; then
+
+   lines=$(echo $output | tr ";" "\n")
+
+    for line in $lines
+    do
+        echo "$line"
+    done
+   exit 1
+else
+   echo "all good  mate"
+fi
