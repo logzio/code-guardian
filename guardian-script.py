@@ -6,7 +6,6 @@ from pathlib import Path
 
 upper_and_lower_types = {"logzio shipping token"}
 rootpath_arr = sys.argv[1:len(sys.argv)]
-regex = "script"
 
 
 def walk_in_directory():
@@ -21,25 +20,25 @@ def walk_in_directory():
 
 
 def check_file_data(file_path):
-    # try:
+    try:
         with open(file_path) as fp:
             line = fp.readline()
             cnt = 1
             while line:
-                find_regex_mock(file_path, line, cnt)
+                search_regex(file_path, line, cnt)
                 line = fp.readline()
                 cnt += 1
-    # except:
-    #     pass
+    except:
+        pass
 
 
-def find_regex_mock(path, line, cnt):
+def search_regex(path, line, cnt):
     sensitive_data_arr = is_sensitive(line)
     for sensitive_data in sensitive_data_arr:
         dir = Path(os.path.abspath(__file__))
         fullpath = str(dir.parent)[:-11] + "/" + path
         logging.error("Warning! Line: {} may contain sensitive data:\n{}:{}\n{}\n".format(cnt, fullpath, cnt, sensitive_data.strip()))
-        print("sdf")
+        print("Found sensitive data\n")
 
 
 def is_sensitive(line_to_check):
