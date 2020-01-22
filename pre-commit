@@ -2,10 +2,8 @@
 echo  "Can't  commit that dum  dum  dum doo, doo doo doo dooo"
 # $(python test.py)
 files=$(git diff --name-only --cached)
-echo $files
-output=$(python test.py)
+output=$(python guardian-script.py $files)
 if [ "$output" != "" ]; then
-
    lines=$(echo $output | tr ";" "\n")
 
     for line in $lines
