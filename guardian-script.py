@@ -37,7 +37,7 @@ def search_regex(path, line, cnt):
     for sensitive_data in sensitive_data_arr:
         dir = Path(os.path.abspath(__file__))
         fullpath = str(dir.parent)[:-11] + "/" + path
-        logging.error("Warning! Line: {} may contain sensitive data:\n{}:{}\n{}\n".format(cnt, fullpath, cnt, sensitive_data.strip()))
+        logging.error("Line: {} may contain sensitive data:\n{}:{}\n{}\n".format(cnt, fullpath, cnt, sensitive_data.strip()))
         print("Found sensitive data\n")
 
 
