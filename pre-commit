@@ -2,7 +2,7 @@
 echo  "Searching for possible sensitive data"
 # $(python test.py)
 files=$(git diff --name-only --cached)
-output=$(python guardian-script.py $files)
+output=$(python .git/hooks/guardian-script.py $files)
 if [ "$output" != "" ]; then
   while IFS=';' read -ra ADDR; do
       echo $ADDR
