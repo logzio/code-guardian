@@ -1,5 +1,5 @@
 #!/bin/sh
-echo  "Can't  commit that dum  dum  dum doo, doo doo doo dooo"
+echo  "Searching for possible sensitive data"
 # $(python test.py)
 files=$(git diff --name-only --cached)
 output=$(python guardian-script.py $files)
@@ -8,6 +8,4 @@ if [ "$output" != "" ]; then
       echo $ADDR
   done <<< "$output"
    exit 1
-else
-   echo "all good  mate"
 fi
