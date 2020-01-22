@@ -4,12 +4,9 @@ echo  "Can't  commit that dum  dum  dum doo, doo doo doo dooo"
 files=$(git diff --name-only --cached)
 output=$(python guardian-script.py $files)
 if [ "$output" != "" ]; then
-   lines=$(echo $output | tr ";" "\n")
-
-    for line in $lines
-    do
-        echo "$line"
-    done
+  while IFS=';' read -ra ADDR; do
+      echo $ADDR
+  done <<< "$output"
    exit 1
 else
    echo "all good  mate"
