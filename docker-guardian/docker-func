@@ -1,0 +1,17 @@
+docker () {
+  if [ "$1" != "build" ]; then
+      command docker "$@"
+  else
+      output=$(python ~/.docker-guard/guardian-script.py ${@[$#]/./$(pwd)})
+      echo ${@[$#]/./$(pwd)}
+      if [ "$output" != "" ]; then
+          echo "Do you want to build the image anyway? (y/n)"
+          read answer
+          if [ "$answer" = "y" ]; then
+             command docker "$@"
+          fi
+      else
+         command docker "$@"
+      fi
+  fi
+}
