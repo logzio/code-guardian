@@ -20,22 +20,23 @@ def walk_in_directory():
 
 def check_file_data(file_path):
     try:
-        with open(file_path) as fp:
-            line = fp.readline()
-            cnt = 1
-            while line:
-                search_regex(file_path, line, cnt)
+        if ".idea" not in file_path:
+            with open(file_path) as fp:
                 line = fp.readline()
-                cnt += 1
+                cnt = 1
+                while line:
+                    search_regex(file_path, line, cnt)
+                    line = fp.readline()
+                    cnt += 1
     except:
         pass
 
 
 def search_regex(path, line, cnt):
     sensitive_data_arr = is_sensitive(line)
-    for sensitive_data in sensitive_data_arr:
-        logging.error("Line: {} may contain sensitive data:\n{}:{}\n{}\n".format(cnt, path, cnt, sensitive_data.strip()))
-        print("Found sensitive data\n")
+    if len(sensitive_data_arr):
+        logging.warning(" Line: {} may contain sensitive data of type: {}.\n{}:{}\n".format(cnt, (", ").join(sensitive_data_arr), path, cnt))
+        print("Found sensitive data!")
 
 
 def is_sensitive(line_to_check):
@@ -51,19 +52,18 @@ def is_sensitive(line_to_check):
 def _get_sensitive_data_dictionary():
     logzio_shipping_token_regex = r"\b[a-zA-Z]{32}\b"
     logzio_api_token_regex = "([a-z]|[0-9]){8}[-]{1}([a-z]|[0-9]){4}[-]{1}([a-z]|[0-9]){4}[-]{1}([a-z]|[0-9]){4}[-]{1}([a-z]|[0-9]){11}"
+    logzio_auth_token = r"\b(?:(?:us|ca|eu|ap){1}[-]{1}(?:east|central|southeast){1}[-]{1}[1-2]{1}|westeurope|westus2)[.]{1}[a-zA-Z]{32}\b"
     aws_access_key_regex = r"\b[A-Z0-9]{20}\b"
-    regex_list = {"logzio shipping token": logzio_shipping_token_regex}
-    regex_list["logzio api token"] = logzio_api_token_regex
-    regex_list["aws access key"] = aws_access_key_regex
+    regex_list = {"Logzio Shipping Token": logzio_shipping_token_regex}
+    regex_list["Logzio Api Token"] = logzio_api_token_regex
+    regex_list["Logzio Authentiation Token"] = logzio_auth_token
+    regex_list["AWS Access Key"] = aws_access_key_regex
     return regex_list
 
 
 def _is_sensitive_by_regex(regex, line_to_check, type_of_data):
     is_found_token = False
-    try:
-        match_obj = re.search(regex, line_to_check)
-    except Exception as e:
-        print(e)
+    match_obj = re.search(regex, line_to_check)
     if match_obj is not None and match_obj.group() is not None:
         if type_of_data in upper_and_lower_types:
             if _is_lower_and_upper_string(match_obj.group()):
