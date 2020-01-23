@@ -1,8 +1,0 @@
-#!/bin/sh
-echo  "Searching for possible sensitive data"
-# $(python test.py)
-files=$(git diff --name-only --cached)
-output=$(python .git/hooks/guardian-script.py $files)
-if [ "$output" != "" ]; then
-   exit 1
-fi
