@@ -28,14 +28,14 @@ def check_file_data(file_path):
             line = fp.readline()
             line_index = 1
             while line:
-                search_regex(file_path, line, line_index)
+                check_sensitive(file_path, line, line_index)
                 line = fp.readline()
                 line_index += 1
     except:
         pass
 
 
-def search_regex(path, line, line_index):
+def check_sensitive(path, line, line_index):
     sensitive_data_arr = is_sensitive(line)
     if len(sensitive_data_arr):
         dir = Path(os.path.abspath(__file__))

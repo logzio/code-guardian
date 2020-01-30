@@ -28,14 +28,15 @@ def check_file_data(file_path):
             line = fp.readline()
             line_index = 1
             while line:
-                search_regex(file_path, line, line_index)
+                check_sensitive(file_path, line, line_index)
                 line = fp.readline()
                 line_index += 1
     except:
+        logging.error("Could not read file: {}".format(file_path))
         pass
 
 
-def search_regex(path, line, line_index):
+def check_sensitive(path, line, line_index):
     sensitive_data_arr = is_sensitive(line)
     if len(sensitive_data_arr):
         logging.warning(" Line: {} may contain sensitive data of type: {}.\n{}:{}\n".format(line_index, (", ").join(sensitive_data_arr), path, line_index))
