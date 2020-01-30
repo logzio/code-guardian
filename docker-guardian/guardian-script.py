@@ -32,8 +32,7 @@ def check_file_data(file_path):
                 line = fp.readline()
                 line_index += 1
     except:
-        logging.error("Could not read file: {}".format(file_path))
-        pass
+        logging.warning("Could not read file: {}".format(file_path))
 
 
 def check_sensitive(path, line, line_index):
