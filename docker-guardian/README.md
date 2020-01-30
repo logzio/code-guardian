@@ -8,5 +8,15 @@ curl -sSL https://raw.githubusercontent.com/logzio/code-guardian/master/docker-g
 source ~/.zshrc
 ```
 
-That's it!
+### That's it!
 
+## Adding Customized Tests
+#### To add your own tests for a specific sensitive expression:
+#### Build a function
+Build your function as follows:
+* Input: String.
+* Output: Boolean that indicates whether the string contains the sensitive expression.
+ 
+#### Add the function
+ * Add your function to the "function_map" structure in the 'guardian-script.py' as follows:\
+    <"Type of expression">: <function_name>
